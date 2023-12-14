@@ -1,55 +1,44 @@
 #include "main.h"
-
 /**
- * main - main function
- * @argc: argc
- * @argv: argv
- *
- * Return: Shell.
+ * main - Entry point (simple shell example)
+ * Return: 0 on success, 1 on error.
  */
-int main(int argc, char *argv[])
+int main(void)
 {
 	pid_t child_pid;
-	int status, read;
-	char *command = NULL, *argv_exec[2];
-	size_t len = 0;
-	(void)argc;
+	int status;
+	char command[1024];
+	char *argv[2];
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			printf("#cisfun$ ");
-		read = getline(&command, &len, stdin);
-		if (read == -1 || feof(stdin))
+		printf("#cisfun$ ");
+		if (fgets(command, 1024, stdin) == NULL)
 		{
-			free(command);
-			return (0);
+			printf("\n");
+			exit(0);
 		}
 		command[strcspn(command, "\n")] = 0;
-		if (command[0] == '\0')
-		{
-			free(command);
-			command = NULL;
-			continue;
-		}
 		child_pid = fork();
+		if (child_pid == -1)
+		{
+			perror("Error:");
+			return (1);
+		}
 		if (child_pid == 0)
 		{
-			argv_exec[0] = command;
-			argv_exec[1] = NULL;
-			if (execve(argv_exec[0], argv_exec, environ) == -1)
+			argv[0] = command;
+			argv[1] = NULL;
+			if (execve(argv[0], argv, environ) == -1)
 			{
-				perror(argv[0]);
-				free(command);
+				perror(command);
 				exit(0);
 			}
 		}
-		else if (child_pid > 0)
+		else
 		{
 			wait(&status);
 		}
-		free(command);
-		command = NULL;
 	}
 	return (0);
 }
