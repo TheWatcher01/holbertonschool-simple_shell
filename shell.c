@@ -22,8 +22,6 @@ int main(int argc, char *argv[])
 		read = getline(&command, &len, stdin);
 		if (read == -1 || feof(stdin))
 		{
-			if (isatty(STDIN_FILENO))
-				printf("\n");
 			free(command);
 			return (0);
 		}
