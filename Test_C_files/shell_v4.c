@@ -1,24 +1,20 @@
 #include "main.h"
 /**
- * main - main function
- * @argc: argc
- * @argv: argv
- *
- * Return: Shell.
+ * main - Entry point (simple shell example)
+ * Return: 0 on success, 1 on error.
  */
-int main(int argc, char *argv[])
+int main(void)
 {
 	pid_t child_pid;
 	int status, read;
-	char *command = NULL, *argv_exec[2];
+	char *command = NULL, *argv[2];
 	size_t len = 0;
-	(void)argc;
 
 	while (1)
 	{
 		printf("#cisfun$ ");
 		read = getline(&command, &len, stdin);
-		if (read == -1 || feof(stdin))
+		if (read == -1)
 		{
 			free(command);
 			return (0);
@@ -33,11 +29,11 @@ int main(int argc, char *argv[])
 		child_pid = fork();
 		if (child_pid == 0)
 		{
-			argv_exec[0] = command;
-			argv_exec[1] = NULL;
-			if (execve(argv_exec[0], argv_exec, environ) == -1)
+			argv[0] = command;
+			argv[1] = NULL;
+			if (execve(argv[0], argv, environ) == -1)
 			{
-				perror(argv[0]);
+				perror(command);
 				free(command);
 				exit(0);
 			}
