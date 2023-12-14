@@ -10,10 +10,9 @@ int main(void)
 	char *command = NULL, *argv[2];
 	size_t len = 0;
 
-	while (1)
+	printf("#cisfun$ ");
+	while ((read = getline(&command, &len, stdin)) != -1)
 	{
-		printf("#cisfun$ ");
-		read = getline(&command, &len, stdin);
 		if (read == -1)
 		{
 			free(command);
@@ -41,9 +40,12 @@ int main(void)
 		else if (child_pid > 0)
 		{
 			wait(&status);
+			printf("#cisfun$ ");
 		}
 		free(command);
 		command = NULL;
 	}
+	printf("\n");
+	free(command);
 	return (0);
 }
