@@ -6,29 +6,41 @@
 int main(void)
 {
 	pid_t child_pid;
-	int status;
-	char *command = NULL;
+	int status, read;
+	char *command = NULL, *argv[2];
 	size_t len = 0;
-	char *argv[2];
-	int read;
 
 	printf("#cisfun$ ");
 	while ((read = getline(&command, &len, stdin)) != -1)
 	{
+		if (read == -1)
+		{
+			free(command);
+			return (0);
+		}
 		command[strcspn(command, "\n")] = 0;
+		if (command[0] == '\0')
+		{
+			free(command);
+			command = NULL;
+			continue;
+		}
 		child_pid = fork();
 		if (child_pid == 0)
 		{
 			argv[0] = command;
 			argv[1] = NULL;
 			if (execve(argv[0], argv, environ) == -1)
-				perror(command), free(command), exit(0);
+			{
+				perror(command);
+				free(command);
+				exit(0);
+			}
 		}
 		else if (child_pid > 0)
 		{
 			wait(&status);
-			if (read != -1)
-				printf("#cisfun$ ");
+			printf("#cisfun$ ");
 		}
 		free(command);
 		command = NULL;
