@@ -1,62 +1,47 @@
 #include "main.h"
 
-/**
- * main - main function
- * @argc: argc
- * @argv: argv
- *
- * Return: Shell.
- */
-int main(int argc, char *argv[])
+int main(void)
 {
-	pid_t child_pid;
-	int status, read;
-	char *command = NULL, *argv_exec[2];
+	char *line_usr_cmd = NULL, *argv[2];
 	size_t len = 0;
-	(void)argc;
-	(void)argv;
+	ssize_t read;
+	pid_t pid;
+	int status, is_interactive = isatty(STDIN_FILENO);
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
+		if (is_interactive)
 			printf("#cisfun$ ");
-		read = getline(&command, &len, stdin);
-		if (read == -1 || feof(stdin))
+		read = getline(&line_usr_cmd, &len, stdin);
+		if (read == -1) /* EOF condition */
 		{
-			free(command);
-			return (0);
+			if (is_interactive)
+				printf("\n");
+			exit(EXIT_SUCCESS);
 		}
-		command[strcspn(command, "\n")] = 0;
-		if (command[0] == '\0')
-		{
-			free(command);
-			command = NULL;
-			continue;
-		}
-		child_pid = fork();
-		if (child_pid == -1)
+		line_usr_cmd[read - 1] = '\0'; /* Remove newline at the end */
+		argv[0] = line_usr_cmd;
+		argv[1] = NULL;
+
+		pid = fork();
+		if (pid == -1)
 		{
 			perror("Error:");
-			free(command);
+			continue;
+		}
+		if (pid == 0)
+		{
+			if (execve(argv[0], argv, NULL) == -1)
+			{
+				perror("./shell");
+			}
 			exit(EXIT_FAILURE);
 		}
-		else if (child_pid == 0)
-		{
-			argv_exec[0] = command;
-			argv_exec[1] = NULL;
-			if (execve(argv_exec[0], argv_exec, environ) == -1)
-			{
-				fprintf(stderr, "%s: No such file or directory\n", command);
-				free(command);
-				exit(0);
-			}
-		}
-		else if (child_pid > 0)
+		else
 		{
 			wait(&status);
 		}
-		free(command);
-		command = NULL;
 	}
-	return (0);
+	free(line_usr_cmd);
+	return (EXIT_SUCCESS);
 }
