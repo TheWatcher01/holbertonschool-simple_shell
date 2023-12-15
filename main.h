@@ -13,8 +13,9 @@
 
 /** Function Prototypes */
 
-char **split_string(char *str);
-
+void prompt(void);
+char *read_command(char **command, size_t *len);
+void execute_command(char *command);
 
 
 /** Structure Prototypes */
