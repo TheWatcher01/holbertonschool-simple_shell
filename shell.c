@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 	char *command = NULL, *argv_exec[2];
 	size_t len = 0;
 	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
@@ -33,7 +34,13 @@ int main(int argc, char *argv[])
 			continue;
 		}
 		child_pid = fork();
-		if (child_pid == 0)
+		if (child_pid == -1)
+		{
+			perror("Error:");
+			free(command);
+			exit(EXIT_FAILURE);
+		}
+		else if (child_pid == 0)
 		{
 			argv_exec[0] = command;
 			argv_exec[1] = NULL;
