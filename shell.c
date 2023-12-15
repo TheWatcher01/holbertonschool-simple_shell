@@ -1,40 +1,49 @@
 #include "main.h"
 /**
- * main - The entry point of the program
- * @argc: The number of command-line arguments
- * @argv: The command-line arguments
+ * main - Entry point for the shell
+ * @argc: Argument count
+ * @argv: Argument vector
  *
- * Function creates simple shell that reads commands from user and executes it
- * It uses a loop that continues until user enters an EOF character (Ctrl+D).
- * Inside loop, it displays prompt to user, reads command from user,
- * and executes command. If command is NULL (which means that an EOF character
- *  was entered), it exits loop and program ends.
+ * This function is the entry point for the shell. It displays a prompt to the
+ * user, reads a command from the user, parses the command into arguments,
+ * executes the command, and then repeats this process in a loop until the
+ * user enters EOF (Ctrl-D).
  *
- * Return: 0 if program ends normally, or a non-zero value if an error occurs.
+ * Return: 0 on success, or the exit status of the command on failure
  */
 int main(int argc, char *argv[])
 {
 	char *command = NULL;
 	size_t len = 0;
+	char **argv_exec;
 
+	/* Ignore unused variable warnings */
 	(void)argc;
 	(void)argv;
 
-	/*Start loop that continues until user enters EOF character (Ctrl+D)*/
 	while (1)
 	{
+		/* Display the prompt */
 		prompt();
 
+		/* Read a command from the user */
 		if (read_command(&command, &len) == NULL)
-			/*If command is NULL, exit loop and end program*/
 			return (0);
 
-		execute_command(command);
+		/* Parse the command into arguments */
+		argv_exec = parse_command(command);
 
+		/* Execute the command */
+		execute_command(argv_exec);
+
+		/* Free the command and argument vector */
 		free(command);
+		free(argv_exec);
 
-		/* Set the command string to NULL for the next iteration */
+		/* Reset the command pointer */
 		command = NULL;
 	}
+
+	/* This point is never reached, but the function needs a return value */
 	return (0);
 }
