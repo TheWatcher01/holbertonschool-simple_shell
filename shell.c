@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 			argv_exec[1] = NULL;
 			if (execve(argv_exec[0], argv_exec, environ) == -1)
 			{
-				perror(argv[0]);
+				fprintf(stderr, "%s: No such file or directory\n", command);
 				free(command);
 				exit(0);
 			}
