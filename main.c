@@ -24,7 +24,20 @@ int main(int argc, char *argv[])
 
 		argv_exec = parse_command(command);
 
-		execute_command(argv_exec);
+		if (strcmp(argv_exec[0], "exit") == 0)
+		{
+			free(command);
+			free(argv_exec);
+			exit(0);
+		}
+		else if (strcmp(argv_exec[0], "env") == 0)
+		{
+			print_env();
+		}
+		else
+		{
+			execute_command(argv_exec);
+		}
 
 		free(command);
 		free(argv_exec);

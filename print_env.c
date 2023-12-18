@@ -1,7 +1,4 @@
 #include "main.h"
-
-extern char **environ;
-
 /**
  * print_env - Print the current environment
  */

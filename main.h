@@ -17,9 +17,9 @@ void prompt(void);
 char *read_command(char **command, size_t *len);
 void execute_command(char **argv_exec);
 char **parse_command(char *command);
+void print_env(void);
 
-
-/* En attente de test : char *get_command_path(char *command); */
+char *get_command_path(char *command);
 
 /** Structure Prototypes */
 
