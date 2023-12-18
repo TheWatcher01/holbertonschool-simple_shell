@@ -1,7 +1,7 @@
 #include "main.h"
+
 /**
  * prompt - Display a prompt to the user
- *
  */
 void prompt(void)
 {

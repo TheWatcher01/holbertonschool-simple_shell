@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * parse_command - Parse a command into arguments
  * @command: The command to parse

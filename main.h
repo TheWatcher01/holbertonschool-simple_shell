@@ -15,12 +15,11 @@
 
 void prompt(void);
 char *read_command(char **command, size_t *len);
-int execute_command(char **argv_exec);
+void execute_command(char **argv_exec);
 char **parse_command(char *command);
-char *get_command_path(char *command);
-void print_env(void);
-void exit_command(char **argv_exec);
-int wait_child(void);
+
+
+/* En attente de test : char *get_command_path(char *command); */
 
 /** Structure Prototypes */
 

@@ -8,17 +8,13 @@
 char *get_command_path(char *command)
 {
 	char *path_copy = strdup(getenv("PATH"));
+
 	char *dir = strtok(path_copy, ":");
+
+	char *command_path = malloc(1024);
 
 	while (dir != NULL)
 	{
-		char *command_path = malloc(strlen(dir) + strlen(command) + 2);
-		if (command_path == NULL)
-			 {
-				 free(path_copy);
-				 return (NULL);
-			 }
-
 		sprintf(command_path, "%s/%s", dir, command);
 
 		if (access(command_path, X_OK) == 0)
@@ -27,10 +23,10 @@ char *get_command_path(char *command)
 			return (command_path);
 		}
 
-		free (command_path);
 		dir = strtok(NULL, ":");
 	}
 
+	free(command_path);
 	free(path_copy);
 	return (NULL);
 }

@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
 	char *command = NULL;
 	size_t len = 0;
 	char **argv_exec;
-	int last_exit_status = 0;
 
 	(void)argc;
 	(void)argv;
@@ -21,13 +20,11 @@ int main(int argc, char *argv[])
 		prompt();
 
 		if (read_command(&command, &len) == NULL)
-		{
-			return (last_exit_status);
-		}
+			return (0);
 
 		argv_exec = parse_command(command);
 
-		last_exit_status = execute_command(argv_exec);
+		execute_command(argv_exec);
 
 		free(command);
 		free(argv_exec);
@@ -35,5 +32,5 @@ int main(int argc, char *argv[])
 		command = NULL;
 	}
 
-	return (last_exit_status);
+	return (0);
 }
