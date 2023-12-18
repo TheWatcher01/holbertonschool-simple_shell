@@ -14,6 +14,13 @@ void execute_command(char **argv_exec)
 {
 	pid_t child_pid;
 
+	/* Check if the command is "exit" */
+	if (strcmp(argv_exec[0], "exit") == 0)
+	{
+		/* If it is, call the exit_shell() function */
+		exit_shell(argv_exec);
+	}
+
 	/* Create a new process */
 	child_pid = fork();
 
@@ -21,7 +28,7 @@ void execute_command(char **argv_exec)
 	{
 		/* If fork failed, print an error message and exit */
 		perror("Error:");
-		free(argv_exec[0]);
+		free(argv_exec);
 		exit(EXIT_FAILURE);
 	}
 	else if (child_pid == 0)
@@ -31,7 +38,7 @@ void execute_command(char **argv_exec)
 		{
 			/* If execve failed, print an error message and exit */
 			fprintf(stderr, "./hsh: %s: No such file or directory\n", argv_exec[0]);
-			free(argv_exec[0]);
+			free(argv_exec);
 			exit(0);
 		}
 	}
