@@ -15,6 +15,9 @@
 
 char *read_command(char **command, size_t *len)
 {
+	/* Check if the shell is in interactive mode */
+	int interactive = isatty(STDIN_FILENO);
+
 	/* Read a line from the standard input */
 	int read = getline(command, len, stdin);
 
@@ -22,6 +25,10 @@ char *read_command(char **command, size_t *len)
 	if (read == -1 || feof(stdin))
 	{
 		/* If so, free the command string and return NULL */
+		if (interactive)
+		{
+			putchar('\n'); /* Add a newline before exiting */
+		}
 		free(*command);
 		return (NULL);
 	}

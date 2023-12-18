@@ -28,7 +28,9 @@ int main(int argc, char *argv[])
 
 		/* Read a command from the user */
 		if (read_command(&command, &len) == NULL)
+		{
 			return (0);
+		}
 
 		/* Parse the command into arguments */
 		argv_exec = parse_command(command);

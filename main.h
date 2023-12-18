@@ -18,7 +18,9 @@ char *read_command(char **command, size_t *len);
 void execute_command(char **argv_exec);
 char **parse_command(char *command);
 char *get_command_path(char *command);
-void exit_shell(char **argv_exec);
+
+/* void exit_shell(char **argv_exec); */
+
 /** Structure Prototypes */
 
 

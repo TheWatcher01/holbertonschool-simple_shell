@@ -1,24 +1,21 @@
 #include "main.h"
 /**
- * execute_command - Execute a command with arguments
- * @argv_exec: Null-terminated array of arguments
+ * execute_command - Execute a command
+ * @argv_exec: The command to execute
  *
- * This function takes a null-terminated array of arguments as input and
- * executes the command specified by the first argument. The remaining
- * arguments are passed to the command. The function uses fork to create a
- * new process and execve to replace the new process with the command to be
- * executed. If the command cannot be executed, an error message is printed
- * and the program exits.
+ * Return: 0 on success, or the exit status of the command on failure.
  */
 void execute_command(char **argv_exec)
 {
 	pid_t child_pid;
+	int status;
 
 	/* Check if the command is "exit" */
 	if (strcmp(argv_exec[0], "exit") == 0)
 	{
-		/* If it is, call the exit_shell() function */
-		exit_shell(argv_exec);
+		/* If it is, terminate the shell */
+		free(argv_exec);
+		exit(0);
 	}
 
 	/* Create a new process */
@@ -38,13 +35,17 @@ void execute_command(char **argv_exec)
 		{
 			/* If execve failed, print an error message and exit */
 			fprintf(stderr, "./hsh: %s: No such file or directory\n", argv_exec[0]);
-			free(argv_exec);
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else if (child_pid > 0)
 	{
 		/* In the parent process, wait for the child to finish */
-		wait(NULL);
+		if (wait(&status) == -1)
+		{
+			perror("wait error");
+			free(argv_exec);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
