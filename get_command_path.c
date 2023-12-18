@@ -3,10 +3,6 @@
  * get_command_path - Retrieve the full path of a given command.
  * @command: The command to find the full path for.
  *
- * Function searches for given command in directories specified by PATH
- * environment variable. It checks each directory in PATH in order, and returns
- * full path of the first matching command it finds.
- *
  * Return: The full path of the command if found, NULL otherwise.
  */
 char *get_command_path(char *command)
