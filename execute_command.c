@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * execute_command - Execute a command
  * @argv_exec: The command to execute
@@ -15,8 +14,15 @@ void execute_command(char **argv_exec)
 	if (strcmp(argv_exec[0], "exit") == 0)
 	{
 		/* If it is, terminate the shell */
-		free(argv_exec);
 		exit(0);
+	}
+
+	/* Check if the command is "env" */
+	if (strcmp(argv_exec[0], "env") == 0)
+	{
+		/* If it is, print the environment and return */
+		print_env();
+		return;
 	}
 
 	/* Create a new process */
@@ -26,7 +32,6 @@ void execute_command(char **argv_exec)
 	{
 		/* If fork failed, print an error message and exit */
 		perror("Error:");
-		free(argv_exec);
 		exit(EXIT_FAILURE);
 	}
 	else if (child_pid == 0)
@@ -45,7 +50,6 @@ void execute_command(char **argv_exec)
 		if (wait(&status) == -1)
 		{
 			perror("wait error");
-			free(argv_exec);
 			exit(EXIT_FAILURE);
 		}
 	}
