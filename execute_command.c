@@ -18,16 +18,14 @@ void execute_command(char **argv_exec)
 	if (child_pid == -1)
 	{
 		perror("Error:");
-		free(argv_exec[0]);
-		exit(EXIT_FAILURE);
+		return;
 	}
 	else if (child_pid == 0)
 	{
-		if (execve(argv_exec[0], argv_exec, environ) == -1)
+		if (execve(argv_exec[0], argv_exec, NULL) == -1)
 		{
-			fprintf(stderr, "./hsh: %s: No such file or directory\n", argv_exec[0]);
-			free(argv_exec[0]);
-			exit(0);
+			perror("Error:");
+			exit(EXIT_FAILURE);
 		}
 	}
 	else if (child_pid > 0)

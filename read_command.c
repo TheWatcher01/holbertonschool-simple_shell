@@ -13,7 +13,6 @@ char *read_command(char **command, size_t *len)
 
 	if (read == -1 || feof(stdin))
 	{
-		free(*command);
 		return (NULL);
 	}
 
@@ -21,7 +20,6 @@ char *read_command(char **command, size_t *len)
 
 	if ((*command)[0] == '\0')
 	{
-		free(*command);
 		*command = NULL;
 	}
 

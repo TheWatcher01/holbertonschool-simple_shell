@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * main - Entry point for the shell
  * @argc: Argument count
@@ -17,32 +18,58 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		prompt();
+		if (is_interactive())
+		{
+			prompt();
+		}
 
 		if (read_command(&command, &len) == NULL)
-			return (0);
+		{
+			if (is_interactive())
+			{
+				printf("\n");
+			}
+			if (command)
+			{
+				free(command);
+				command = NULL;
+			}
+			exit(EXIT_SUCCESS);
+		}
 
 		argv_exec = parse_command(command);
+
+		if (argv_exec == NULL)
+		{
+			if (command)
+			{
+				free(command);
+				command = NULL;
+			}
+			continue;
+		}
 
 		if (strcmp(argv_exec[0], "exit") == 0)
 		{
 			free(command);
 			free(argv_exec);
-			exit(0);
-		}
-		else if (strcmp(argv_exec[0], "env") == 0)
-		{
-			print_env();
-		}
-		else
-		{
-			execute_command(argv_exec);
+			command = NULL;
+			argv_exec = NULL;
+			break;
 		}
 
-		free(command);
-		free(argv_exec);
+		execute_command(argv_exec);
 
-		command = NULL;
+		if (command)
+		{
+			free(command);
+			command = NULL;
+		}
+		if (argv_exec)
+		{
+			free(argv_exec);
+			argv_exec = NULL;
+		}
 	}
 
 	return (0);
