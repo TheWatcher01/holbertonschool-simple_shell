@@ -11,35 +11,30 @@
  */
 char *get_command_path(char *command)
 {
-	/* Duplicate PATH environment variable to avoid modifying original */
 	char *path_copy = strdup(getenv("PATH"));
-
-	/* Split the duplicated PATH into individual directories */
 	char *dir = strtok(path_copy, ":");
 
-	/* Allocate memory to hold the full path of the command */
-	char *command_path = malloc(1024);
-
-	/* Iterate over each directory in the PATH */
 	while (dir != NULL)
 	{
-		/* Construct the full path of command in current directory */
+		char *command_path = malloc(strlen(dir) + strlen(command) + 2);
+		if (command_path == NULL)
+			 {
+				 free(path_copy);
+				 return (NULL);
+			 }
+
 		sprintf(command_path, "%s/%s", dir, command);
 
-		/* Check if the command is executable in current directory */
 		if (access(command_path, X_OK) == 0)
 		{
-			/* If command is found, clean up and return full path*/
 			free(path_copy);
 			return (command_path);
 		}
 
-		/* Move on to the next directory in the PATH */
+		free (command_path);
 		dir = strtok(NULL, ":");
 	}
 
-	/*If command was not found in any directory, clean up and return NULL*/
-	free(command_path);
 	free(path_copy);
 	return (NULL);
 }
