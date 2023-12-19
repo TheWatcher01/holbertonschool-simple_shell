@@ -28,9 +28,7 @@ int main(int argc, char *argv[])
 
 		if (strcmp(argv_exec[0], "exit") == 0)
 		{
-			free(command);
-			free(argv_exec);
-			exit(0);
+			execute_exit(argv_exec);
 		}
 		else if (strcmp(argv_exec[0], "env") == 0)
 		{
