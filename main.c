@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * main - Entry point for the shell
  * @argc: Argument count
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
 	char *command = NULL;
 	size_t len = 0;
 	char **argv_exec;
+	int exec_status;
 
 	(void)argc;
 	(void)argv;
@@ -36,7 +38,11 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			execute_command(argv_exec);
+			exec_status = execute_command(argv_exec);
+			if (exec_status != 0)
+			{
+				fprintf(stderr, "%s: command not found\n", argv_exec[0]);
+			}
 		}
 
 		free(command);

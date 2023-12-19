@@ -9,10 +9,16 @@
  */
 char *read_command(char **command, size_t *len)
 {
-	int read = getline(command, len, stdin);
+	ssize_t read;
+
+	read = getline(command, len, stdin);
 
 	if (read == -1 || feof(stdin))
 	{
+		if (isatty(STDIN_FILENO))
+		{
+			putchar('\n');
+		}
 		free(*command);
 		return (NULL);
 	}
