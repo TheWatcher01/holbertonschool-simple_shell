@@ -8,15 +8,23 @@
  */
 char **parse_command(char *command)
 {
-	char **argv_exec = malloc(2 * sizeof(char *));
+	char **argv_exec = malloc(64 * sizeof(char *));
 	char *token = strtok(command, " ");
-	if (!argv_exec)
-	{
+        int i = 0;
+
+	if (!argv_exec) {
 		return (NULL);
 	}
 
-	argv_exec[0] = token;
-	argv_exec[1] = NULL;
+	while (token != NULL)
+	{
+		argv_exec[i] = token;
+		i++;
+
+		token = strtok(NULL, " ");
+	}
+
+	argv_exec[i] = NULL;
 
 	return (argv_exec);
 }
