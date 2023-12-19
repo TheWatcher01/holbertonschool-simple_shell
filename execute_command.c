@@ -10,6 +10,11 @@ int execute_command(char **argv_exec)
 	pid_t child_pid;
 	char *command_path;
 
+	if (!argv_exec[0])
+	{
+		return (0);
+	}
+
 	if (argv_exec[0][0] == '/')
 	{
 		command_path = strdup(argv_exec[0]);
