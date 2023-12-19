@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * get_command_path - Retrieve the full path of a given command.
  * @command: The command to find the full path for.
@@ -8,18 +9,18 @@
 char *get_command_path(char *command)
 {
 	char *path_copy = strdup(getenv("PATH"));
-
 	char *dir = strtok(path_copy, ":");
+	char *command_path = NULL;
 
-	char *command_path = malloc(1024);
-
-	if (!command_path)
-	{
-		free(path_copy);
-		return (NULL);
-	}
 	while (dir != NULL)
 	{
+		command_path = malloc(strlen(dir) + strlen(command) + 2);
+		if (!command_path)
+		{
+			free(path_copy);
+			return (NULL);
+		}
+
 		sprintf(command_path, "%s/%s", dir, command);
 
 		if (access(command_path, X_OK) == 0)
@@ -28,10 +29,10 @@ char *get_command_path(char *command)
 			return (command_path);
 		}
 
+		free(command_path);
 		dir = strtok(NULL, ":");
 	}
 
-	free(command_path);
 	free(path_copy);
 	return (NULL);
 }
