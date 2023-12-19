@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * parse_command - Parse a command into arguments
  * @command: The command to parse
@@ -7,19 +8,15 @@
  */
 char **parse_command(char *command)
 {
-	char **argv_exec = malloc(64 * sizeof(char *));
+	char **argv_exec = malloc(2 * sizeof(char *));
 	char *token = strtok(command, " ");
-	int i = 0;
-
-	while (token != NULL)
+	if (!argv_exec)
 	{
-		argv_exec[i] = token;
-		i++;
-
-		token = strtok(NULL, " ");
+		return (NULL);
 	}
 
-	argv_exec[i] = NULL;
+	argv_exec[0] = token;
+	argv_exec[1] = NULL;
 
 	return (argv_exec);
 }
