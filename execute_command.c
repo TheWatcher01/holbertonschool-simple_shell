@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * execute_command - Execute a command with arguments
  * @argv_exec: Null-terminated array of arguments
@@ -9,10 +8,19 @@
 int execute_command(char **argv_exec)
 {
 	pid_t child_pid;
+	char *command_path;
 
-	if (access(argv_exec[0], X_OK) == -1)
+	if (argv_exec[0][0] == '/')
 	{
-		fprintf(stderr, "%s: No such file or directory\n", argv_exec[0]);
+		command_path = strdup(argv_exec[0]);
+	}
+	else
+	{
+		command_path = get_command_path(argv_exec[0]);
+	}
+
+	if (!command_path)
+	{
 		return (-1);
 	}
 
@@ -21,15 +29,16 @@ int execute_command(char **argv_exec)
 	if (child_pid == -1)
 	{
 		perror("Error:");
-		free(argv_exec[0]);
-		exit(EXIT_FAILURE);
+		free(command_path);
+		return (-1);
 	}
 	else if (child_pid == 0)
 	{
-		if (execve(argv_exec[0], argv_exec, environ) == -1)
+		if (execve(command_path, argv_exec, environ) == -1)
 		{
-			free(argv_exec[0]);
-			exit(0);
+			perror(argv_exec[0]);
+			free(command_path);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else if (child_pid > 0)
@@ -37,5 +46,6 @@ int execute_command(char **argv_exec)
 		wait(NULL);
 	}
 
+	free(command_path);
 	return (0);
 }

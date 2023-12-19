@@ -10,10 +10,12 @@ char **parse_command(char *command)
 {
 	char **argv_exec = malloc(64 * sizeof(char *));
 	char *token = strtok(command, " ");
-        int i = 0;
+	int i = 0;
 
-	if (!argv_exec) {
-		return (NULL);
+	if (!argv_exec)
+	{
+		perror("Error:");
+			return (NULL);
 	}
 
 	while (token != NULL)
