@@ -7,17 +7,19 @@
  */
 char **parse_command(char *command)
 {
-	char **argv_exec = malloc(2 * sizeof(char *));
+	char **argv_exec = malloc(64 * sizeof(char *));
 	char *token = strtok(command, " ");
+	int i = 0;
 
-	if (argv_exec == NULL)
+	while (token != NULL)
 	{
-		fprintf(stderr, "Error: malloc failed\n");
-		return (NULL);
+		argv_exec[i] = token;
+		i++;
+
+		token = strtok(NULL, " ");
 	}
 
-	argv_exec[0] = token;
-	argv_exec[1] = NULL;
+	argv_exec[i] = NULL;
 
 	return (argv_exec);
 }

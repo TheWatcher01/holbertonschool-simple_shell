@@ -18,7 +18,7 @@ char *read_command(char **command, size_t *len);
 void execute_command(char **argv_exec);
 char **parse_command(char *command);
 void print_env(void);
-int is_interactive(void);
+
 char *get_command_path(char *command);
 
 /** Structure Prototypes */
