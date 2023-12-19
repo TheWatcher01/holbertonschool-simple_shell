@@ -10,6 +10,11 @@ int execute_command(char **argv_exec)
 	pid_t child_pid;
 	char *command_path;
 
+	if (execute_builtin_command(argv_exec) != -1)
+	{
+		return (0);
+	}
+
 	if (!argv_exec[0])
 	{
 		return (0);
