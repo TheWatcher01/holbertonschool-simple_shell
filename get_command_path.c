@@ -13,6 +13,11 @@ char *get_command_path(char *command)
 
 	char *command_path = malloc(1024);
 
+	if (!command_path)
+	{
+		free(path_copy);
+		return (NULL);
+	}
 	while (dir != NULL)
 	{
 		sprintf(command_path, "%s/%s", dir, command);
