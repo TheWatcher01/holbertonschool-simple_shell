@@ -12,7 +12,8 @@ int execute_command(char **argv_exec)
 
 	if (access(argv_exec[0], X_OK) == -1)
 	{
-		return -1;
+		fprintf(stderr, "%s: No such file or directory\n", argv_exec[0]);
+		return (-1);
 	}
 
 	child_pid = fork();
@@ -36,5 +37,5 @@ int execute_command(char **argv_exec)
 		wait(NULL);
 	}
 
-	return 0;
+	return (0);
 }
