@@ -20,6 +20,7 @@ char *read_command(char **command, size_t *len)
 			putchar('\n');
 		}
 		free(*command);
+		*command = NULL;
 		return (NULL);
 	}
 
