@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 			exec_status = execute_command(argv_exec);
 			if (exec_status != 0)
 			{
-				fprintf(stderr, "%s: command not found\n", argv_exec[0]);
+				perror(argv_exec[0]);
 			}
 		}
 

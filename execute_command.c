@@ -21,6 +21,7 @@ int execute_command(char **argv_exec)
 
 	if (!command_path)
 	{
+		errno = ENOENT;
 		return (-1);
 	}
 
