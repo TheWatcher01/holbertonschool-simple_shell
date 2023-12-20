@@ -23,10 +23,20 @@ int execute_command(char **argv_exec)
 	if (argv_exec[0][0] == '/')
 	{
 		command_path = strdup(argv_exec[0]);
+		if (!command_path)
+		{
+			fprintf(stderr, "Error: Failed to allocate memory\n");
+			return (-1);
+		}
 	}
 	else
 	{
 		command_path = get_command_path(argv_exec[0]);
+		if (!command_path)
+		{
+			fprintf(stderr, "Error: Failed to allocate memory\n");
+			return (-1);
+		}
 	}
 
 	if (!command_path)

@@ -14,7 +14,7 @@ char *get_command_path(char *command)
 
 	if (!path_copy)
 	{
-		perror("Error:");
+		fprintf(stderr, "Error: Failed to allocate memory\n");
 		return (NULL);
 	}
 
@@ -23,7 +23,7 @@ char *get_command_path(char *command)
 		command_path = malloc(strlen(dir) + strlen(command) + 2);
 		if (!command_path)
 		{
-			perror("Error:");
+			fprintf(stderr, "Error: Failed to allocate memory\n");
 			free(path_copy);
 			return (NULL);
 		}
