@@ -15,7 +15,7 @@ char **parse_command(char *command)
 	if (!argv_exec)
 	{
 		perror("Error:");
-			return (NULL);
+		return (NULL);
 	}
 
 	while (token != NULL)

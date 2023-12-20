@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * handle_error - Handles errors by printing error message and exiting program
+ * handle_error - Handles errors by printing an error message and exiting the program.
  * @message: The error message to be printed.
  * @mem_to_free: A pointer to the memory to be freed, if any.
  *

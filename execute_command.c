@@ -1,23 +1,52 @@
 #include "main.h"
 
 /**
- * execute_external_command - Execute an external command
+ * execute_command - Execute a command with arguments
  * @argv_exec: Null-terminated array of arguments
  *
  * Return: 0 on success, or -1 on failure
  */
-int execute_external_command(char **argv_exec)
+int execute_command(char **argv_exec)
 {
 	pid_t child_pid;
-	char *command_path = get_command_path(argv_exec[0]);
+	char *command_path;
+
+	if (execute_builtin_command(argv_exec) != -1)
+	{
+		return (0);
+	}
+
+	if (!argv_exec[0])
+	{
+		return (0);
+	}
+
+	if (argv_exec[0][0] == '/')
+	{
+		command_path = strdup(argv_exec[0]);
+		if (!command_path)
+		{
+			handle_error("Error: Failed to allocate memory", NULL);
+			return (-1);
+		}
+	}
+	else
+	{
+		command_path = get_command_path(argv_exec[0]);
+		if (!command_path)
+		{
+			handle_error("Error: Command not found", NULL);
+			return (-1);
+		}
+	}
 
 	if (!command_path)
 	{
-		handle_error("Error: Command not found", NULL);
+		errno = ENOENT;
 		return (-1);
 	}
 
-	child_pid = create_process();
+	child_pid = fork();
 
 	if (child_pid == -1)
 	{
@@ -39,25 +68,9 @@ int execute_external_command(char **argv_exec)
 	}
 	else if (child_pid > 0)
 	{
-		wait_for_process(child_pid);
+		wait(NULL);
 	}
 
 	free(command_path);
 	return (0);
-}
-
-/**
- * execute_command - Execute a command with arguments
- * @argv_exec: Null-terminated array of arguments
- *
- * Return: 0 on success, or -1 on failure
- */
-int execute_command(char **argv_exec)
-{
-	if (check_builtin(argv_exec) == 0)
-	{
-		return (execute_builtin_command(argv_exec));
-	}
-
-	return (execute_external_command(argv_exec));
 }
