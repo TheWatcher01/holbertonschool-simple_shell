@@ -22,7 +22,7 @@ int main(void)
 		if (strcmp(command, "exit") == 0)
 		{
 			free(command);
-			exit(EXIT_SUCCESS);
+			builtin_exit(NULL);
 		}
 
 		argv_exec = parse_command(command);
