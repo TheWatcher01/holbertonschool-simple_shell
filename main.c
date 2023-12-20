@@ -6,13 +6,11 @@
  *
  * Return: 0 on success, or the exit status of the command on failure
  */
-int main(int argc, char *argv[])
+int main(void)
 {
 	char *command = NULL, **argv_exec;
 	size_t len = 0;
 	int exec_status;
-	(void)argc;
-	(void)argv;
 
 	while (1)
 	{
