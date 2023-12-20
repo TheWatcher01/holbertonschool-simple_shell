@@ -10,7 +10,6 @@ int main(void)
 {
 	char *command = NULL, **argv_exec;
 	size_t len = 0;
-	int exec_status;
 
 	while (1)
 	{
@@ -33,11 +32,7 @@ int main(void)
 		}
 		else
 		{
-			exec_status = execute_command(argv_exec);
-			if (exec_status != 0)
-			{
-				perror(argv_exec[0]);
-			}
+			execute_command(argv_exec);
 		}
 
 		free(command);

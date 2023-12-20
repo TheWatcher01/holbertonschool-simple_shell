@@ -34,7 +34,7 @@ int execute_command(char **argv_exec)
 		command_path = get_command_path(argv_exec[0]);
 		if (!command_path)
 		{
-			fprintf(stderr, "Error: Failed to allocate memory\n");
+			fprintf(stderr, "%s: command not found\n", argv_exec[0]);
 			return (-1);
 		}
 	}
@@ -55,9 +55,14 @@ int execute_command(char **argv_exec)
 	}
 	else if (child_pid == 0)
 	{
+		if (access(command_path, F_OK) != 0)
+		{
+			fprintf(stderr, "%s: command not found\n", argv_exec[0]);
+			free(command_path);
+			exit(EXIT_FAILURE);
+		}
 		if (execve(command_path, argv_exec, environ) == -1)
 		{
-			perror(argv_exec[0]);
 			free(command_path);
 			exit(EXIT_FAILURE);
 		}
