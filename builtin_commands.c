@@ -26,6 +26,33 @@ int builtin_env(char **argv_exec)
 }
 
 /**
+ * check_builtin - Check if a command is a builtin command
+ * @argv_exec: Null-terminated array of arguments
+ *
+ * Return: 0 if the command is a builtin command, -1 otherwise
+ */
+int check_builtin(char **argv_exec)
+{
+	builtin_command_t builtin_commands[] = {
+		{"exit", builtin_exit},
+		{"env", builtin_env},
+		{NULL, NULL}
+	};
+
+	int i;
+
+	for (i = 0; builtin_commands[i].name != NULL; i++)
+	{
+		if (strcmp(argv_exec[0], builtin_commands[i].name) == 0)
+		{
+			return (0);
+		}
+	}
+
+	return (-1);
+}
+
+/**
  * execute_builtin_command - Execute a builtin command
  * @argv_exec: Null-terminated array of arguments
  *

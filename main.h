@@ -17,12 +17,22 @@ void prompt(void);
 char *read_command(char **command, size_t *len);
 int execute_command(char **argv_exec);
 char **parse_command(char *command);
+
 void print_env(void);
+
+void handle_error(char *message, char *mem_to_free);
+
 char *get_command_path(char *command);
+
 int builtin_exit(char **argv_exec);
 int builtin_env(char **argv_exec);
+int check_builtin(char **argv_exec);
 int execute_builtin_command(char **argv_exec);
-void handle_error(char *message, char *mem_to_free);
+
+
+pid_t create_process(void);
+int wait_for_process(pid_t pid);
+
 /** Structure Prototypes */
 
 /**
@@ -32,8 +42,8 @@ void handle_error(char *message, char *mem_to_free);
  */
 typedef struct builtin_command
 {
-        char *name;
-        int (*func)(char **argv_exec);
+	char *name;
+	int (*func)(char **argv_exec);
 } builtin_command_t;
 
 

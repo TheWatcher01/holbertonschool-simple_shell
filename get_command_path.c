@@ -8,9 +8,16 @@
  */
 char *get_command_path(char *command)
 {
-	char *path_copy = strdup(getenv("PATH"));
-	char *dir, *command_path = NULL;
+	char *path_copy;
+	char *dir;
+	char *command_path = NULL;
 
+	if (command[0] == '/')
+	{
+		return (strdup(command));
+	}
+
+	path_copy = strdup(getenv("PATH"));
 	if (!path_copy)
 	{
 		handle_error("Error: Failed to allocate memory", NULL);
