@@ -22,6 +22,7 @@ char *get_command_path(char *command);
 int builtin_exit(char **argv_exec);
 int builtin_env(char **argv_exec);
 int execute_builtin_command(char **argv_exec);
+void handle_error(char *message, char *mem_to_free);
 /** Structure Prototypes */
 
 /**

@@ -9,22 +9,21 @@
 char *get_command_path(char *command)
 {
 	char *path_copy = strdup(getenv("PATH"));
-	char *dir = strtok(path_copy, ":");
-	char *command_path = NULL;
+	char *dir, *command_path = NULL;
 
 	if (!path_copy)
 	{
-		fprintf(stderr, "Error: Failed to allocate memory\n");
+		handle_error("Error: Failed to allocate memory", NULL);
 		return (NULL);
 	}
 
+	dir = strtok(path_copy, ":");
 	while (dir != NULL)
 	{
 		command_path = malloc(strlen(dir) + strlen(command) + 2);
 		if (!command_path)
 		{
-			fprintf(stderr, "Error: Failed to allocate memory\n");
-			free(path_copy);
+			handle_error("Error: Failed to allocate memory", path_copy);
 			return (NULL);
 		}
 
@@ -40,6 +39,6 @@ char *get_command_path(char *command)
 		dir = strtok(NULL, ":");
 	}
 
-	free(path_copy);
+	handle_error("Error: Command not found", path_copy);
 	return (NULL);
 }

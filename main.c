@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * main - Entry point for the shell
  * @argc: Argument count
@@ -18,15 +19,15 @@ int main(void)
 		if (read_command(&command, &len) == NULL)
 			return (0);
 
-		argv_exec = parse_command(command);
-
-		if (strcmp(argv_exec[0], "exit") == 0)
+		if (strcmp(command, "exit") == 0)
 		{
 			free(command);
-			free(argv_exec);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
-		else if (strcmp(argv_exec[0], "env") == 0)
+
+		argv_exec = parse_command(command);
+
+		if (strcmp(argv_exec[0], "env") == 0)
 		{
 			print_env();
 		}
