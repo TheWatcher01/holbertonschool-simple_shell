@@ -12,11 +12,18 @@ char *get_command_path(char *command)
 	char *dir = strtok(path_copy, ":");
 	char *command_path = NULL;
 
+	if (!path_copy)
+	{
+		perror("Error:");
+		return (NULL);
+	}
+
 	while (dir != NULL)
 	{
 		command_path = malloc(strlen(dir) + strlen(command) + 2);
 		if (!command_path)
 		{
+			perror("Error:");
 			free(path_copy);
 			return (NULL);
 		}
