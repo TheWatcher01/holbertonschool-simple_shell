@@ -17,8 +17,13 @@ int main(void)
 		prompt();
 
 		if (read_command(&command, &len) == NULL)
-			return (0);
-
+		{
+			if (feof(stdin))
+			{
+				exit(0);
+			}
+			continue;
+		}
 		if (strcmp(command, "exit") == 0)
 		{
 			free(command);
