@@ -12,6 +12,8 @@ int main(void)
 	char *command = NULL, **argv_exec;
 	size_t len = 0;
 
+	set_sigint_handler();
+
 	while (1)
 	{
 		prompt();

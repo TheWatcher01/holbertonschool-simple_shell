@@ -11,18 +11,27 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <errno.h>
+
 /** Function Prototypes */
 
 void prompt(void);
+
 char *read_command(char **command, size_t *len);
 int execute_command(char **argv_exec);
 char **parse_command(char *command);
-void print_env(void);
 char *get_command_path(char *command);
+
+void print_env(void);
+
 int builtin_exit(char **argv_exec);
 int builtin_env(char **argv_exec);
 int execute_builtin_command(char **argv_exec);
+
 void handle_error(char *message, char *mem_to_free);
+
+void sigint_handler(int sig);
+void set_sigint_handler(void);
+
 /** Structure Prototypes */
 
 /**
