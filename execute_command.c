@@ -21,7 +21,7 @@ int execute_command(char **argv_exec)
 		return (0);
 	}
 
-	if (argv_exec[0][0] == '/')
+	if (argv_exec[0][0] == '/' || strncmp(argv_exec[0], "./", 2) == 0)
 	{
 		command_path = strdup(argv_exec[0]);
 		if (!command_path)
