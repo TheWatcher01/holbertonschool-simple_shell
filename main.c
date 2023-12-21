@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * main - Entry point for the shell
  *
@@ -25,37 +24,31 @@ int main(void)
 			}
 			continue;
 		}
-		if (strcmp(command, "exit") == 0)
+
+		argv_exec = parse_command(command);
+
+		if (argv_exec == NULL || argv_exec[0] == NULL)
 		{
-			free(command);
-			free_command_cache();
-			builtin_exit(NULL);
-		}
-
-		if (command[0] != '\0')
-		{
-			argv_exec = parse_command(command);
-
-			if (argv_exec == NULL || argv_exec[0] == NULL)
-			{
-				free(argv_exec);
-				free(command);
-				command = NULL;
-				continue;
-			}
-
-			if (strcmp(argv_exec[0], "env") == 0)
-			{
-				print_env();
-			}
-			else
-			{
-				execute_command(argv_exec);
-			}
-
 			free(argv_exec);
+			free(command);
+			command = NULL;
+			continue;
 		}
 
+		if (strcmp(argv_exec[0], "exit") == 0)
+		{
+			builtin_exit(argv_exec);
+		}
+		else if (strcmp(argv_exec[0], "env") == 0)
+		{
+			print_env();
+		}
+		else
+		{
+			execute_command(argv_exec);
+		}
+
+		free(argv_exec);
 		free(command);
 		command = NULL;
 	}
