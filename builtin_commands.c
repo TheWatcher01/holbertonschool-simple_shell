@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * builtin_exit - Exit the shell
  * @argv_exec: Null-terminated array of arguments
@@ -7,23 +8,8 @@
  */
 int builtin_exit(char **argv_exec)
 {
-	int exit_code = 0;
-	char *endptr;
-
-	if (argv_exec[1] != NULL)
-	{
-		exit_code = strtol(argv_exec[1], &endptr, 10);
-
-		if (*endptr != '\0')
-		{
-			fprintf(stderr, "exit: %s: numeric argument required\n", argv_exec[1]);
-			return (1);
-		}
-	}
-
-	/* Close all open resources here */
-
-	exit(exit_code);
+	(void)argv_exec;
+	exit(0);
 }
 
 /**

@@ -28,7 +28,6 @@ int builtin_env(char **argv_exec);
 int execute_builtin_command(char **argv_exec);
 
 void handle_error(char *message, char *mem_to_free);
-void handle_exit(char **args);
 
 void sigint_handler(int sig);
 void set_sigint_handler(void);
@@ -66,8 +65,5 @@ typedef struct command_cache
 /** Environment Variables */
 
 extern char **environ;
-
-
-
 
 #endif /* MAIN_H */
