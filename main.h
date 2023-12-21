@@ -32,8 +32,8 @@ void handle_error(char *message, char *mem_to_free);
  */
 typedef struct builtin_command
 {
-        char *name;
-        int (*func)(char **argv_exec);
+	char *name;
+	int (*func)(char **argv_exec);
 } builtin_command_t;
 
 
@@ -46,4 +46,3 @@ extern char **environ;
 
 
 #endif /* MAIN_H */
-

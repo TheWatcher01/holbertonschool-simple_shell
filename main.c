@@ -30,20 +30,31 @@ int main(void)
 			builtin_exit(NULL);
 		}
 
-		argv_exec = parse_command(command);
+		if (command[0] != '\0')
+		{
+			argv_exec = parse_command(command);
 
-		if (strcmp(argv_exec[0], "env") == 0)
-		{
-			print_env();
-		}
-		else
-		{
-			execute_command(argv_exec);
+			if (argv_exec == NULL || argv_exec[0] == NULL)
+			{
+				free(argv_exec);
+				free(command);
+				command = NULL;
+				continue;
+			}
+
+			if (strcmp(argv_exec[0], "env") == 0)
+			{
+				print_env();
+			}
+			else
+			{
+				execute_command(argv_exec);
+			}
+
+			free(argv_exec);
 		}
 
 		free(command);
-		free(argv_exec);
-
 		command = NULL;
 	}
 
