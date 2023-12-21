@@ -9,6 +9,7 @@
 int execute_command(char **argv_exec)
 {
 	pid_t child_pid;
+	int status;
 	char *command_path;
 
 	if (execute_builtin_command(argv_exec) != -1)
@@ -68,9 +69,16 @@ int execute_command(char **argv_exec)
 	}
 	else if (child_pid > 0)
 	{
-		wait(NULL);
+		waitpid(child_pid, &status, 0);
+
+		if (WIFEXITED(status)) {
+			printf("Child process ended normally with exit status %d\n", WEXITSTATUS(status));
+		} else if (WIFSIGNALED(status)) {
+			printf("Child process was killed by signal %d\n", WTERMSIG(status));
+		}
 	}
 
 	free(command_path);
 	return (0);
+
 }
