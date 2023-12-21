@@ -34,7 +34,7 @@ void set_sigint_handler(void);
 
 char *get_from_cache(char *command);
 void *add_to_cache(char *command, char *path);
-void free_command_cache();
+void free_command_cache(void);
 
 /** Structure Prototypes */
 
@@ -55,7 +55,8 @@ typedef struct builtin_command
  * @path: Path to the command
  * @next: Pointer to the next item in the linked list of command path caches
  */
-typedef struct command_cache {
+typedef struct command_cache
+{
 	char *command;
 	char *path;
 	struct command_cache *next;

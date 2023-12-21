@@ -1,9 +1,7 @@
 #include "main.h"
-
 /**
  * get_command_path - Retrieve the full path of a given command.
  * @command: The command to find the full path for.
- *
  * Return: The full path of the command if found, NULL otherwise.
  */
 char *get_command_path(char *command)
@@ -15,9 +13,8 @@ char *get_command_path(char *command)
 	if (cached_path)
 	{
 		free(path_copy);
-		return strdup(cached_path);
+		return (strdup(cached_path));
 	}
-
 	if (!path_copy)
 	{
 		handle_error("Error: Failed to allocate memory", NULL);
@@ -42,11 +39,9 @@ char *get_command_path(char *command)
 			free(path_copy);
 			return (command_path);
 		}
-
 		free(command_path);
 		dir = strtok(NULL, ":");
 	}
-
 	handle_error("Error: Command not found", path_copy);
 	return (NULL);
 }
