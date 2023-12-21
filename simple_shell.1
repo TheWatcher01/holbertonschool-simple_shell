@@ -1,0 +1,133 @@
+.TH hsh(1)
+
+.SH NAME
+.B hsh
+- Simple Shell
+
+.SH DESCRIPTION
+.B hsh
+Is a personal UNIX command line interpreter, fully written in C language. It processes commands entered through standard input and manages memory effectively.
+
+.SH BUILT WITH
+.B hsh
+It developed using the C programming language.
+
+.SH FEATURES
+My shell handles command lines with arguments and pathways. It supports two modes: interactive and non-interactive.
+
+.SH ARGUMENTS
+The shell attempts to open the file in the current directory first. If not found, it searches directories in PATH for the script. To invoke a script or file, the first argument is assumed to be the filename; no other options are necessary.
+
+.SH BUILT-INS
+The following built-in functions have been implemented:
+
+.TP
+.B alias [name[=value]]
+Example: alias l=ls (sets the key l to ls)
+
+.TP
+.B cd [dir]
+Change the current directory to dir. If successful, the absolute pathname of the new working directory is outputted.
+
+.TP
+.B env [key=value]
+Prints all environmental variables and their values, each separated by a new line.
+
+.TP
+.B exit [status]
+Terminates the current shell. If status is given, the return code to the parent process is set; else, it returns the most recently executed command.
+
+.SH EXAMPLES
+Below are examples of using hsh:
+
+.TP
+.B Interactive
+In interactive mode, hsh directly receives commands from the user via standard input.
+
+.TP
+.B Non-interactive
+In non-interactive mode, commands are read according to piped commands.
+
+.SH PARAMETERS
+Parameters are set by assigning values. Special parameters start with $. $PID expands to the process ID of the shell.
+
+.SH EXIT STATUS
+Commands return exit status: success (0), failure (-1), or command not found (127). Builtin commands return 0 on success and 2 on failure.
+
+.SH LIBRARIES
+.IP stdlib.h
+.IP stdio.h
+.IP unistd.h
+.IP string.h
+.IP sys/types.h
+.IP sys/wait.h
+.IP sys/stat.h
+.IP errno.h
+
+.SH FILES
+.RS 1.2i
+.TS
+tab(@), left, box;
+c | c
+rB | r.
+
+### File Descriptions
+
+#### `builtin_commands.c`
+- **Description**: Contains functions for handling built-in commands like `exit` and `env`.
+- `builtin_exit`: Exits the shell.
+- `builtin_env`: Prints the environment variables.
+
+#### `cache_handle.c`
+- **Description**: Manages a cache for storing command paths.
+- `add_to_cache`: Adds commands and their paths to the cache.
+- `get_from_cache`: Retrieves command paths from the cache.
+- `free_command_cache`: Frees memory allocated for the command cache.
+
+#### `execute_command.c`
+- **Description**: Executes a command entered in the shell.
+- `execute_command`: Handles executing built-in commands or external commands.
+
+#### `get_command_path.c`
+- **Description**: Finds the executable path of a command.
+- `get_command_path`: Retrieves the absolute path of a command by searching through directories in the PATH environment variable.
+
+#### `handle_error.c`
+- **Description**: Handles error messages and memory deallocation in case of failures.
+
+#### `main.c`
+- **Description**: The main file of the shell program. Orchestrates command execution and user interaction.
+
+#### `main.h`
+- **Description**: Header file containing function prototypes and necessary header inclusions.
+
+#### `parse_command.c`
+- **Description**: Parses user-entered commands into separate arguments.
+
+#### `print_env.c`
+- **Description**: Prints the environment variables.
+
+#### `process_management.c`
+- **Description**: Manages processes, including creating and waiting for child processes.
+
+#### `prompt.c`
+- **Description**: Manages the shell prompt.
+
+#### `read_command.c`
+- **Description**: Reads user input from the terminal.
+
+#### `signal_handlers.c`
+- **Description**: Handles signal interruptions, specifically the SIGINT signal (Ctrl+C).
+
+
+.SH SEE ALSO
+.BR bash (1)
+
+.SH BUGS
+No bugs detected.
+
+.SH AUTHORS
+.PP
+@Teddy Deberdt
+
+~
