@@ -17,16 +17,6 @@ void handle_error(char *message, char *mem_to_free)
 		free(mem_to_free);
 	}
 
-	/* If the message is NULL, it means EOF (Ctrl+D) was detected. */
-	if (message == NULL)
-	{
-		if (isatty(STDIN_FILENO))
-		{
-			write(STDOUT_FILENO, "\n", 1);
-		}
-		exit(EXIT_SUCCESS);
-	}
-
 	/* Print the error message to stderr. */
 	fprintf(stderr, "%s\n", message);
 
