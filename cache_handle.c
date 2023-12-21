@@ -7,7 +7,7 @@ void *add_to_cache(char *command, char *path)
 	command_cache_t *new_node = malloc(sizeof(command_cache_t));
 	if (!new_node)
 	{
-		handle_error("Error: Failed to allocate memory", NULL);
+		perror("Failed to allocate memory");
 		return (NULL);
 	}
 
@@ -35,6 +35,13 @@ char *get_from_cache(char *command)
 	return (NULL);
 }
 
+char *check_cache(char *command) {
+	char *cached_path = get_from_cache(command);
+	if (cached_path) {
+		return (strdup(cached_path));
+	}
+	return (NULL);
+}
 
 void free_command_cache()
 {
