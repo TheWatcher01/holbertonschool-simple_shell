@@ -2,8 +2,6 @@
 
 /**
  * main - Entry point for the shell
- * @argc: Argument count
- * @argv: Argument vector
  *
  * Return: 0 on success, or the exit status of the command on failure
  */
@@ -22,6 +20,7 @@ int main(void)
 		{
 			if (feof(stdin))
 			{
+				free_command_cache();
 				exit(0);
 			}
 			continue;
@@ -29,6 +28,7 @@ int main(void)
 		if (strcmp(command, "exit") == 0)
 		{
 			free(command);
+			free_command_cache();
 			builtin_exit(NULL);
 		}
 
@@ -59,6 +59,8 @@ int main(void)
 		free(command);
 		command = NULL;
 	}
+
+	free_command_cache();
 
 	return (0);
 }

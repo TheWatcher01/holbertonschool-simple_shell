@@ -32,11 +32,23 @@ int execute_command(char **argv_exec)
 	}
 	else
 	{
-		command_path = get_command_path(argv_exec[0]);
-		if (!command_path)
+		char *cached_path = get_from_cache(argv_exec[0]);
+		if (cached_path)
 		{
-			handle_error("Error: Command not found", NULL);
-			return (-1);
+			command_path = strdup(cached_path);
+		}
+		else
+		{
+			command_path = get_command_path(argv_exec[0]);
+			if (command_path)
+			{
+				add_to_cache(argv_exec[0], command_path);
+			}
+			else
+			{
+				handle_error("Error: Command not found", NULL);
+				return (-1);
+			}
 		}
 	}
 

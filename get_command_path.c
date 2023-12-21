@@ -10,6 +10,13 @@ char *get_command_path(char *command)
 {
 	char *path_copy = strdup(getenv("PATH"));
 	char *dir, *command_path = NULL;
+	char *cached_path = get_from_cache(command);
+
+	if (cached_path)
+	{
+		free(path_copy);
+		return strdup(cached_path);
+	}
 
 	if (!path_copy)
 	{
@@ -31,6 +38,7 @@ char *get_command_path(char *command)
 
 		if (access(command_path, X_OK) == 0)
 		{
+			add_to_cache(command, command_path);
 			free(path_copy);
 			return (command_path);
 		}
