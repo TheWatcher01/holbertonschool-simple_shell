@@ -27,13 +27,15 @@ int builtin_exit(char **argv_exec);
 int builtin_env(char **argv_exec);
 int execute_builtin_command(char **argv_exec);
 
+void handle_error(char *message, char *mem_to_free);
+
 void sigint_handler(int sig);
 void set_sigint_handler(void);
 
 char *get_from_cache(char *command);
 void *add_to_cache(char *command, char *path);
 void free_command_cache();
-char *check_cache(char *command);
+
 /** Structure Prototypes */
 
 /**
@@ -62,5 +64,8 @@ typedef struct command_cache {
 /** Environment Variables */
 
 extern char **environ;
+
+
+
 
 #endif /* MAIN_H */

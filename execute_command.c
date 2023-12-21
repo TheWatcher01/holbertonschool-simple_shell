@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * execute_command - Execute a command with arguments
  * @argv_exec: Null-terminated array of arguments
@@ -25,13 +26,13 @@ int execute_command(char **argv_exec)
 		command_path = strdup(argv_exec[0]);
 		if (!command_path)
 		{
-			perror(NULL);
+			handle_error("Error: Failed to allocate memory", NULL);
 			return (-1);
 		}
 	}
 	else
 	{
-		char *cached_path = check_cache(argv_exec[0]);
+		char *cached_path = get_from_cache(argv_exec[0]);
 		if (cached_path)
 		{
 			command_path = strdup(cached_path);
@@ -45,6 +46,7 @@ int execute_command(char **argv_exec)
 			}
 			else
 			{
+				handle_error("Error: Command not found", NULL);
 				return (-1);
 			}
 		}
@@ -60,20 +62,19 @@ int execute_command(char **argv_exec)
 
 	if (child_pid == -1)
 	{
-		perror(NULL);
-		free(command_path);
+		handle_error("Error: Failed to fork", command_path);
 		return (-1);
 	}
 	else if (child_pid == 0)
 	{
 		if (access(command_path, F_OK) != 0)
 		{
-			perror(NULL);
+			handle_error("Error: Command not found", command_path);
 			exit(EXIT_FAILURE);
 		}
 		if (execve(command_path, argv_exec, environ) == -1)
 		{
-			perror(NULL);
+			handle_error("Error: Failed to execute command", command_path);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -85,3 +86,4 @@ int execute_command(char **argv_exec)
 	free(command_path);
 	return (0);
 }
+

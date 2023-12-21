@@ -7,14 +7,14 @@
  */
 pid_t create_process(void)
 {
-    pid_t pid = fork();
+	pid_t pid = fork();
 
-    if (pid == -1)
-    {
-        perror("Failed to fork");
-    }
+	if (pid == -1)
+	{
+		perror("Error: Failed to fork");
+	}
 
-    return (pid);
+	return (pid);
 }
 
 /**
@@ -25,18 +25,18 @@ pid_t create_process(void)
  */
 int wait_for_process(pid_t pid)
 {
-    int status;
+	int status;
 
-    if (waitpid(pid, &status, 0) == -1)
-    {
-        perror("Failed to wait for process");
-        return (-1);
-    }
+	if (waitpid(pid, &status, 0) == -1)
+	{
+		perror("Error: Failed to wait for process");
+		return (-1);
+	}
 
-    if (WIFEXITED(status))
-    {
-        return (WEXITSTATUS(status));
-    }
+	if (WIFEXITED(status))
+	{
+		return (WEXITSTATUS(status));
+	}
 
-    return (-1);
+	return (-1);
 }

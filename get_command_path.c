@@ -10,17 +10,17 @@ char *get_command_path(char *command)
 {
 	char *path_copy = strdup(getenv("PATH"));
 	char *dir, *command_path = NULL;
-	char *cached_path = check_cache(command);
+	char *cached_path = get_from_cache(command);
 
 	if (cached_path)
 	{
 		free(path_copy);
-		return (cached_path);
+		return strdup(cached_path);
 	}
 
 	if (!path_copy)
 	{
-		perror(NULL);
+		handle_error("Error: Failed to allocate memory", NULL);
 		return (NULL);
 	}
 
@@ -30,8 +30,7 @@ char *get_command_path(char *command)
 		command_path = malloc(strlen(dir) + strlen(command) + 2);
 		if (!command_path)
 		{
-			perror(NULL);
-			free(path_copy);
+			handle_error("Error: Failed to allocate memory", path_copy);
 			return (NULL);
 		}
 
@@ -48,7 +47,6 @@ char *get_command_path(char *command)
 		dir = strtok(NULL, ":");
 	}
 
-	perror(NULL);
-	free(path_copy);
+	handle_error("Error: Command not found", path_copy);
 	return (NULL);
 }
